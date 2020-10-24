@@ -14,22 +14,36 @@ const gameBoard = (() => {
 			}
 		}
 	};
-	const indicateSpotIsTaken = () => {
-		squareBox.forEach(function(square) {
-			square.onmouseover = () => {
-				if (square.textContent) {
-					square.classList.add("error");
-				}
+	const ifWon = () => {
+		const winningPos = [
+			// horizontal
+			boardArray.slice(0, 3),
+			boardArray.slice(3, 6),
+			boardArray.slice(6), 
+			// vertical 
+			[boardArray[0], boardArray[3], boardArray[6]],
+			[boardArray[1], boardArray[4], boardArray[7]],
+			[boardArray[2], boardArray[5], boardArray[8]],
+			// diagonal
+			[boardArray[0], boardArray[4], boardArray[8]],
+			[boardArray[2], boardArray[4], boardArray[6]]
+		]
+		console.log("testing!! Winning positions");
+		winningPos.forEach(function(pos) {
+			if (arraysEqual(["O","O","O"], pos)) {
+				console.log("O wins!");
+			}
+			else if (arraysEqual(["X", "X", "X"], pos)) {
+				console.log("X wins!");
 			}
 		});
 	}
-	const ifWon = () => {
-		console.log(boardArray.slice(0, 3));
-		if(arraysEqual(["O","O","O"],boardArray.slice(0, 3))) {
-			console.log("YALL WIN");
-		}
+	const ifTie = () => {
+		let takenSpots = document.querySelectorAll(".gameBoard .squareBox.error");
+		console.log("Num of taken spots: " + takenSpots.length);
+		if (takenSpots.length === 9) console.log("It's a tie!");
 	}
-	return {displayBoard, boardArray, squareBox, indicateSpotIsTaken, ifWon};
+	return {displayBoard, boardArray, squareBox, ifWon, ifTie};
 })();
 
 function arraysEqual(a, b) {
@@ -64,16 +78,17 @@ const displayController = (() => {
 				gameBoard.displayBoard();
 				console.log(gameBoard.boardArray[markIndex])
 				lastPlayerMove = square.textContent;
+				square.classList.add("error");
 				// console.log(gameBoard.boardArray[markIndex]);
 				// console.log(square.textContent);
-				gameBoard.ifWon()
+				gameBoard.ifWon();
+				gameBoard.ifTie();
 				// console.log(gameBoard.boardArray);
 			}
 		});	
 	}
 	return {switchTurn};
 })();
-gameBoard.indicateSpotIsTaken();
 displayController.switchTurn();
 
 const player = (playerType) => {
