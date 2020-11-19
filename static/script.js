@@ -31,10 +31,10 @@ const gameBoard = (() => {
 		console.log("testing!! Winning positions");
 		winningPos.forEach(function(pos) {
 			if (arraysEqual(["O","O","O"], pos)) {
-				console.log("O wins!");
+				alert("O wins!");
 			}
 			else if (arraysEqual(["X", "X", "X"], pos)) {
-				console.log("X wins!");
+				alert("X wins!");
 			}
 		});
 	}
@@ -43,7 +43,7 @@ const gameBoard = (() => {
 		console.log("Num of taken spots: " + takenSpots.length);
 		if (takenSpots.length === 9) console.log("It's a tie!");
 	}
-	return {displayBoard, boardArray, squareBox, ifWon, ifTie};
+	return {displayBoard, boardArray, squareBox, ifWon, ifTie, board};
 })();
 
 function arraysEqual(a, b) {
@@ -63,6 +63,8 @@ console.log("TEST: " + gameBoard.displayBoard());
 
 // logic
 const displayController = (() => {
+	const title = document.querySelector("#title");
+	const subtitle = document.querySelector('#subtitle');
 	const switchTurn = () => {
 		let lastPlayerMove;
 		gameBoard.squareBox.forEach(function(square) {
@@ -87,11 +89,37 @@ const displayController = (() => {
 			}
 		});	
 	}
-	return {switchTurn};
+	const resetGame = () => {
+		for (let spot in gameBoard.boardArray) {
+			spot = null;
+		}
+		return gameBoard.boardArray;
+	}
+	const chooseGameMode = () => {
+		const modeBtn = document.querySelectorAll('.gameMenu .btn');
+		
+	}
+	const previousPage = () => {
+		const previousBtn = document.querySelectorAll('.previousBtn');
+	}
+	const startGame = () => {
+		const inGameDisplay = document.querySelector('.inGame');
+		const gameMenu = document.querySelector('.gameMenu');
+		const btns = document.querySelectorAll('.startGameBtn');
+		btns.forEach(function(btn) {
+			btn.onclick = function() {
+				gameMenu.classList.add("displayNone");
+				inGameDisplay.classList.remove("displayNone");
+				subtitle.textContent = "";
+			} 
+		});
+	}
+	return {switchTurn, startGame};
 })();
 displayController.switchTurn();
+displayController.startGame();
 
-const player = (playerType) => {
+const player = (name) => {
 }
 
 const player1 = player("player1");

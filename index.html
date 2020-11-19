@@ -9,19 +9,45 @@
 </head>
 <body>
 	<main>
-		<h1 class="largeText">Tic-Tac-Toe</h1>
-		<p>hello world this is a tic tac toe right here.</p>
-		<div class="gameBoard">
-			<div class="squareBox placeCenter" data-board-index="0"></div>
-			<div class="squareBox placeCenter" data-board-index="1"></div>
-			<div class="squareBox placeCenter" data-board-index="2"></div>
-			<div class="squareBox placeCenter" data-board-index="3"></div>
-			<div class="squareBox placeCenter" data-board-index="4"></div>
-			<div class="squareBox placeCenter" data-board-index="5"></div>
-			<div class="squareBox placeCenter" data-board-index="6"></div>
-			<div class="squareBox placeCenter" data-board-index="7"></div>
-			<div class="squareBox placeCenter" data-board-index="8"></div>
-		</div>
+		<h1 class="largeText" id="title">Tic-Tac-Toe</h1>
+		<p id="subtitle">Have a minute to play the game you once loved?</p>
+		<a href="#" class="btn displayNone">Play again</a>
+		<section class="gameMenu">
+			<a href="#" id="twoPlayersMode" class="btn btnRound">2 Players</a>
+			<a href="#" id="computerMode" class="btn btnPrimary btnRound">Computer</a>
+			<a href="#" id="AImode" class="btn btnSecondary btnRound">Sam The Unbeatable AI</a>
+			<section class="twoPlayersConfig fullScreen placeCenter">
+				<a href="#" class="previousBtn">&larr; Go Back</a>
+				<h2 class="largeText">2 Players Mode</h2>
+				<p>What are your names?</p>
+				<div class="enterNameForm">
+					<div class="round roundBig placeCenter">
+						<label for="player1Name"><h2>Player 1</h2></label>
+						<input id="player1Name" type="text" placeholder="Name">
+					</div>
+					<div class="round roundBig placeCenter">
+						<label for="player2Name"><h2>Player 2</h2></label>
+						<input id="player2Name" type="text" placeholder="Name">
+					</div> 
+				</div>
+				<a href="#" class="btn startGameBtn">Start Game</a>
+			</section>
+		</section>
+		<section class="inGame displayNone flexCenterAll">
+			<div class="round roundSmall flexCenterAll"><b>adsfjkdlfjskfjdl</b></div>
+			<div class="gameBoard">
+				<div class="squareBox placeCenter" data-board-index="0"></div>
+				<div class="squareBox placeCenter" data-board-index="1"></div>
+				<div class="squareBox placeCenter" data-board-index="2"></div>
+				<div class="squareBox placeCenter" data-board-index="3"></div>
+				<div class="squareBox placeCenter" data-board-index="4"></div>
+				<div class="squareBox placeCenter" data-board-index="5"></div>
+				<div class="squareBox placeCenter" data-board-index="6"></div>
+				<div class="squareBox placeCenter" data-board-index="7"></div>
+				<div class="squareBox placeCenter" data-board-index="8"></div>
+			</div>
+			<div class="round roundSmall flexCenterAll"><b>PLAYER 2 NAME</b></div>
+		</section>
 	</main>
 	<script src="static/script.js"></script>
 </body>
