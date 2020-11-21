@@ -41,6 +41,9 @@ h1, h2, h3, h4, h5, h6 {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(var(--min-square-size), 1fr));
 }
+.disableClick {
+	pointer-events: none;
+}
 .squareBox {
 	padding: 1rem;
 	border: .5rem solid #fae067;
@@ -52,7 +55,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-size: 5rem;
 }
 .squareBox:hover {
-	border: .5rem solid #87CBCE;
+	border: .5rem solid var(--lightblue);
 	cursor: pointer;
 	z-index: 10;
 }
@@ -189,7 +192,7 @@ h1, h2, h3, h4, h5, h6 {
 	justify-content: center;
 	align-items: center;
 }
-.previousBtn {
+.arrowNav {
 	position: absolute;
 	top: 1rem; left: 1rem;
 	text-decoration: none;
@@ -197,8 +200,11 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 	font-size: 120%;
 }
-.inGame {
+.displayNone {
+	display: none;
+}
+/*.inGame {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
+}*/
