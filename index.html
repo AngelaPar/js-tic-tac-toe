@@ -13,25 +13,25 @@
 		<p id="subtitle">Have a minute to play the game you once loved?</p>
 		<a href="#" class="btn displayNone">Play again</a>
 		<section class="gameMenu">
-			<a href="#" id="twoPlayersMode" class="btn btnRound">2 Players</a>
+			<a href="#" id="goTwoPlayersMenu" class="btn btnRound">2 Players</a>
 			<a href="#" id="computerMode" class="btn btnPrimary btnRound">Computer</a>
 			<a href="#" id="impossibleMode" class="btn btnSecondary btnRound">Sam The Unbeatable AI</a>
-			<section class="twoPlayersConfig fullScreen placeCenter">
-				<a href="#" class="arrowNav goToMenu">&larr; Go Back</a>
-				<h2 class="largeText">2 Players Mode</h2>
-				<p>What are your names?</p>
-				<div class="enterNameForm">
-					<div class="round roundBig placeCenter">
-						<label for="player1Name"><h2>Player 1</h2></label>
-						<input id="player1" type="text" placeholder="Name">
-					</div>
-					<div class="round roundBig placeCenter">
-						<label for="player2Name"><h2>Player 2</h2></label>
-						<input id="player2" type="text" placeholder="Name">
-					</div> 
+		</section>
+		<section class="twoPlayersConfig fullScreen placeCenter displayNone">
+			<a href="#" class="arrowNav goToMenu">&larr; Go Back</a>
+			<h2 class="largeText">2 Players Mode</h2>
+			<p>What are your names?</p>
+			<div class="enterNameForm">
+				<div class="round roundBig placeCenter">
+					<label for="player1Name"><h2>Player 1</h2></label>
+					<input id="player1Input" type="text" placeholder="Name">
 				</div>
-				<a href="#" class="btn startGameBtn">Start Game</a>
-			</section>
+				<div class="round roundBig placeCenter">
+					<label for="player2Name"><h2>Player 2</h2></label>
+					<input id="player2Input" type="text" placeholder="Name">
+				</div> 
+			</div>
+			<a id="twoPlayersMode" href="#" class="btn">Start Game</a>
 		</section>
 		<section class="inGame displayNone">
 			<div class="flexCenterAll">
