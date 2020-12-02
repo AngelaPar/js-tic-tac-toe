@@ -1,6 +1,3 @@
-console.log("Loading");
-
-
 const player = (name, playerType) => {
 	const player1Name = document.getElementById('player1Name');
 	const player2Name = document.getElementById('player2Name');
@@ -13,8 +10,7 @@ const player = (name, playerType) => {
 		}
 		else if (
 			playerType === "player2" || 
-			playerType === "bot" || 
-		  	playerType === "unbeatableAI") {
+			playerType === "bot") {
 			player2Name.textContent = validatePlayerName();
 		}
 	}
@@ -30,12 +26,12 @@ const player = (name, playerType) => {
 	return {name, info, displayName}
 };
 
-// design
 const gameBoard = (() => {
 	let boardArray = [null, null, null, null, null, null, null, null, null];
 	const board = document.getElementsByClassName("gameBoard")[0];
 	const squareBox = document.querySelectorAll(".squareBox");
 	let takenSpots = document.querySelectorAll(".gameBoard .squareBox.error");
+	const emptySpots = document.querySelectorAll(".gameBoard .squareBox:not(.error)");
 	const displayBoard = () => {
 		for (let i = 0; i <= boardArray.length; i++) {
 			const square = document.querySelector(`.gameBoard .squareBox[data-board-index="${i}"]`);
@@ -44,7 +40,67 @@ const gameBoard = (() => {
 			else if (boardArray[i] === null) square.textContent = "";
 		}
 	};
-	// display visual clue if player one in case they have same names
+	const markRandomSpot = () => {
+		let square, randomSpot;
+		let randomPos = Math.floor(Math.random() * boardArray.length);
+		while (boardArray[randomPos] !== null) {
+			randomPos = Math.floor(Math.random() * boardArray.length);
+		}
+		boardArray[randomPos] = "O";
+		square = document.querySelector(`.gameBoard .squareBox[data-board-index="${randomPos}"]`);
+		square.classList.add('error');
+	} 
+
+	const numTakenSpots = () => {
+		let total = 0;
+		for (let spot in boardArray) {
+			if (boardArray[spot] !== null) {
+				total++;
+			}
+		}
+		return total;
+	}
+	let lastPlayerMove;
+	const switchTurn = () => {
+		let randomPos, randomSpot
+		squareBox.forEach(function(square) {
+			square.addEventListener('click', function(e) {
+				const markPosition = e.target.dataset.boardIndex
+				square = document.querySelector(`.gameBoard .squareBox[data-board-index="${markPosition}"]`);
+			 	if (!square.textContent) {
+			 		if (mode === "pVsBot") {
+			 			boardArray[markPosition] = "X";
+			 			if (numTakenSpots() < 8) markRandomSpot();
+			 		}
+			 		else if (mode === "2p") {
+			 			boardArray[markPosition] = getPlayerTurn();
+			 		}
+			 	}
+				displayBoard();
+				lastPlayerMove = square.textContent;
+				square.classList.add("error");
+				if (getWinner()) {
+					let winner = getWinner();
+					if (winner.toLowerCase() === "you") {
+						displayController.changeTitle(winner + " win!");
+					}
+					else {
+						displayController.changeTitle(winner + " wins!");
+					}
+					restartBtn.classList.remove("displayNone");
+				}
+				else if (ifTie()) {
+					displayController.changeTitle("It's a tie!");
+					restartBtn.classList.remove("displayNone");
+				}
+			}, false);
+		});	
+	}
+	const getPlayerTurn = () => {
+		let turn;
+		lastPlayerMove === "X" ? turn = "O" : turn = "X";
+		return turn;			 		
+	}
 	const getWinner = () => {
 		let winner; 
 		const winningPos = [
@@ -60,9 +116,7 @@ const gameBoard = (() => {
 			[boardArray[0], boardArray[4], boardArray[8]],
 			[boardArray[2], boardArray[4], boardArray[6]]
 		]
-		console.log("testing!! Winning positions");
 		winningPos.forEach(function(pos) {
-			// return arraysEqual(["O","O","O"], pos) || arraysEqual(["X", "X", "X"], pos)
 			if (arraysEqual(["X", "X", "X"], pos)) {
 				winner = displayController.getPlayer('player1').name;
 				board.classList.add("disableClick");
@@ -73,20 +127,31 @@ const gameBoard = (() => {
 			}
 		});
 		return winner;
-		// return false;
 	}
 	const ifTie = () => {
-		console.log("Num of taken spots: " + takenSpots.length);
-		return takenSpots.length === 9;
+		return numTakenSpots() === 9;
 	}
 	const clearBoard = () => {
 		boardArray = [null, null, null, null, null, null, null, null, null];
+		lastPlayerMove = null;
 		takenSpots.forEach(function(spot) {spot.classList.remove("error");});
-		console.log("clearing board...");
+		squareBox.forEach(function(square) {square.classList.remove("error");});
+		displayController.changeTitle("default");
+		restartBtn.classList.add("displayNone");
 		displayBoard();
 		return boardArray;
 	}
-	return {displayBoard, boardArray, squareBox, getWinner, ifTie, board, clearBoard};
+	return {
+		displayBoard, 
+		boardArray, 
+		squareBox, 
+		getWinner, 
+		ifTie, 
+		board, 
+		clearBoard, 
+		switchTurn, 
+		getPlayerTurn
+	};
 })();
 
 function arraysEqual(a, b) {
@@ -98,131 +163,93 @@ function arraysEqual(a, b) {
 	}
 	return true;
 }
-// if(arraysEqual(["O","X","O"],["O","O","O"])) {
-// 	console.log("arrays equal");
-// }
 
-// logic
 const displayController = (() => {
 	let player1, player2;
-	const subtitle = document.querySelector('#subtitle');
 	const restartBtn = document.querySelector('#restartBtn');
 	const twoPlayersConfig = document.querySelector('.twoPlayersConfig');
 	const inGameDisplay = document.querySelector('.inGame');
 	const gameMenu = document.querySelector('.gameMenu');
-
-	const twoPlayersMode = document.getElementById('twoPlayersMode');
-	const computerMode = document.getElementById('computerMode');
-	const impossibleMode = document.getElementById('impossibleMode');
-
 	const player1Input = document.getElementById('player1Input');
 	const player2Input = document.getElementById('player2Input');
-
-	const player1Name = document.getElementById('player1Name');
-	const player2Name = document.getElementById('player2Name');
-
 	const showGame = () => {
 		gameMenu.classList.add("displayNone");
 		inGameDisplay.classList.remove("displayNone");
 		twoPlayersConfig.classList.add('displayNone');			
-		subtitle.textContent = "";
+		changeSubTitle("");
 		gameBoard.board.classList.remove("disableClick");
 	}
-	// minimize code duplication here;
-	const setGameModes = () => {
-		twoPlayersMode.onclick = function() {
-			mode = "2p";
-			showGame();
-			player1 = player(player1Input.value, "player1");
-			player2 = player(player2Input.value, "player2");
-			player1.displayName();
-			player2.displayName();
-		} 
-		computerMode.onclick = function() {
-			mode = "pVsBot";
-			showGame();
-			player1 = player("You", "player1");
-			player2 = player("Computer", "bot");
-			player1.displayName();
-			player2.displayName();
-		}
-		impossibleMode.onclick = function() {
-			mode = "pVsImpossible";
-			showGame();
-			player1 = player("You", "player1");
-			player2 = player("Unbeatable Sam", "unbeatableAI");
-			player1.displayName();
-			player2.displayName();
-		}
+	const quitGame = () => {
+		gameMenu.classList.remove("displayNone");
+		twoPlayersConfig.classList.add("displayNone");
+		inGameDisplay.classList.add("displayNone");
+		changeTitle('default');
+		changeSubTitle("default");
+		gameBoard.boardArray = gameBoard.clearBoard();
 	}
+	const clearPlayerInput = () => {
+		player1Input.value = "";
+		player2Input.value = "";
+	}
+	const setGameModes = () => {
+		const twoPlayersMode = document.getElementById('twoPlayersMode');
+		const computerMode = document.getElementById('computerMode');
+
+		[twoPlayersMode, computerMode].forEach(function(btn) {
+			btn.addEventListener("click", function(e) {
+				showGame();
+				if (e.target.id === "twoPlayersMode") {
+					mode = "2p";
+					player1 = player(player1Input.value, "player1");
+					if (!player1.name.trim()) player1.name = 'PLAYER 1';
+					player2 = player(player2Input.value, "player2");
+					if (!player2.name.trim()) player2.name = 'PLAYER 2';
+				}
+				else if (e.target.id === "computerMode") {
+					mode = "pVsBot";
+					player1 = player("You", "player1");
+					player2 = player("Computer", "bot");
+				}
+				player1.displayName();
+				player2.displayName();
+			}, false);
+		})
+	}
+
 	const getPlayer = (player) => {
-		console.log("PLAYER1: " + player1,"PLAYER2: " + player2);
 		if (player === 'player1') return player1;
 		else if (player === 'player2') return player2;
 	}
-	const switchTurn = () => {
-		let lastPlayerMove;
-		gameBoard.squareBox.forEach(function(square) {
-			// console.log(square);
-			square.onclick = e => {
-				const markIndex = e.target.dataset.boardIndex
-				console.log(`MARK POSITION: ${markIndex}`)
-				square = document.querySelector(`.gameBoard .squareBox[data-board-index="${markIndex}"]`);
-				// console.log("Square box clicked! index: " + e.target.dataset.boardIndex);
-			 	if (square.textContent === "") {
-			 		lastPlayerMove === "X" ? gameBoard.boardArray[markIndex] = "O" : gameBoard.boardArray[markIndex] = "X";			 		
-			 	}
-			 	else console.error("spot's already taken.");
-				gameBoard.displayBoard();
-				console.log(gameBoard.boardArray[markIndex])
-				lastPlayerMove = square.textContent;
-				square.classList.add("error");
-				if (gameBoard.getWinner()) {
-					alert('win')
-					let winner = gameBoard.getWinner();
-					changeTitle(winner + " wins!");
-					restartBtn.classList.toggle("displayNone");
-				}
-				else if (gameBoard.ifTie()) {
-					changeTitle("It's a tie!");
-					restartBtn.classList.toggle("displayNone");
-				}
-			}
-		});	
-	}
+
 	const goToMenu = document.querySelectorAll('.goToMenu');
-	console.log("menu elem: " + goToMenu);
 	goToMenu.forEach(function(btn) {
-		btn.onclick = function() {
-			console.log("going to menu...");
-			gameMenu.classList.remove("displayNone");
-			twoPlayersConfig.classList.add("displayNone");
-			inGameDisplay.classList.add("displayNone");
-			gameBoard.boardArray = gameBoard.clearBoard();
-		} 
+		btn.addEventListener('click', function() {
+			quitGame();
+		}, false);
 	});
+
 	const goTwoPlayersMenu = document.querySelector('#goTwoPlayersMenu'); 
-	goTwoPlayersMenu.onclick = function() {
+	goTwoPlayersMenu.addEventListener('click', function() {
 		twoPlayersConfig.classList.remove('displayNone');		
-	}
-	restartBtn.onclick = function() {
-		console.warn("RESTART GAME");
+		clearPlayerInput();
+	}, false);
+
+	restartBtn.addEventListener('click', function() {
 		gameBoard.boardArray = gameBoard.clearBoard();
-		changeTitle("default");
-		restartBtn.classList.toggle("displayNone");
-	} 
+		showGame();
+	}, false);	
 	
-	// const 
 	const changeTitle = (titleName) => {
 		let title = document.querySelector("#title");
 		if (titleName === "default") changeTitle("tic-tac-toe");
 		else title.textContent = titleName;
 	}
-	return {setGameModes, switchTurn, getPlayer};
+	const changeSubTitle = (titleName) => {
+		let subtitle = document.querySelector('#subtitle');
+		if (titleName === "default") changeSubTitle("have a minute to play the game you once loved?");
+		else subtitle.textContent = titleName;
+	}
+	return {setGameModes, getPlayer, changeTitle};
 })();
 displayController.setGameModes();
-displayController.switchTurn();
-window.onclick = function () {
-	console.log(displayController.player1, displayController.player2)
-	console.log(displayController.getPlayer('player1'));
-}
+gameBoard.switchTurn();

@@ -8,20 +8,18 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Staatliches&display=swap" rel="stylesheet">
 </head>
 <body>
-	<main>
+	<main class="placeCenter">
 		<h1 class="largeText" id="title">Tic-Tac-Toe</h1>
 		<p id="subtitle">Have a minute to play the game you once loved?</p>
-		<a href="#" class="btn displayNone">Play again</a>
-		<section class="gameMenu">
-			<a href="#" id="goTwoPlayersMenu" class="btn btnRound">2 Players</a>
-			<a href="#" id="computerMode" class="btn btnPrimary btnRound">Computer</a>
-			<a href="#" id="impossibleMode" class="btn btnSecondary btnRound">Sam The Unbeatable AI</a>
+		<section class="gameMenu placeCenter">
+			<a href="#" id="goTwoPlayersMenu" class="btn bold btnPrimary glowHover square squareBig placeCenter">2 Players</a>
+			<a href="#" id="computerMode" class="btn bold btnPrimary glowHover square squareBig placeCenter">Computer</a>
 		</section>
 		<section class="twoPlayersConfig fullScreen placeCenter displayNone">
-			<a href="#" class="arrowNav goToMenu">&larr; Go Back</a>
+			<a href="#" class="arrowNav goToMenu bold">&larr; Go Back</a>
 			<h2 class="largeText">2 Players Mode</h2>
 			<p>What are your names?</p>
-			<div class="enterNameForm">
+			<div class="enterNameForm placeCenter">
 				<div class="round roundBig placeCenter">
 					<label for="player1Name"><h2>Player 1</h2></label>
 					<input id="player1Input" type="text" placeholder="Name">
@@ -31,11 +29,11 @@
 					<input id="player2Input" type="text" placeholder="Name">
 				</div> 
 			</div>
-			<a id="twoPlayersMode" href="#" class="btn">Start Game</a>
+			<a id="twoPlayersMode" href="#" class="btn btnPrimary bold">Start Game</a>
 		</section>
 		<section class="inGame displayNone">
-			<div class="flexCenterAll">
-				<b><div class="round roundSmall flexCenterAll" id="player1Name"></div></b>
+			<div class="placeCenter">
+				<b><div class="round roundSmall placeCenter" id="player1Name"></div></b>
 				<div class="gameBoard">
 					<div class="squareBox placeCenter" data-board-index="0"></div>
 					<div class="squareBox placeCenter" data-board-index="1"></div>
@@ -47,10 +45,10 @@
 					<div class="squareBox placeCenter" data-board-index="7"></div>
 					<div class="squareBox placeCenter" data-board-index="8"></div>
 				</div> 
-				<b><div class="round roundSmall flexCenterAll" id="player2Name"></div></b>
+				<b><div class="round roundSmall placeCenter" id="player2Name"></div></b>
 			</div>
-			<a href="#" class="btn displayNone" id="restartBtn">Play again!</a>
-			<a href="#" class="btn goToMenu">Quit</a>
+			<a href="#" class="btn btnPrimary displayNone bold" id="restartBtn">Play again!</a>
+			<a href="#" class="btn btnWarning goToMenu bold">Quit</a>
 		</section>
 	</main>
 	<script src="static/script.js"></script>
