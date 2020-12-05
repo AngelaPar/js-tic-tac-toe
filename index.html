@@ -8,14 +8,16 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Staatliches&display=swap" rel="stylesheet">
 </head>
 <body>
-	<main class="placeCenter">
-		<h1 class="largeText" id="title">Tic-Tac-Toe</h1>
-		<p id="subtitle">Have a minute to play the game you once loved?</p>
-		<section class="gameMenu placeCenter">
+	<main class="placeCenter placeCenterColumn">
+		<div class="mainText">
+			<h1 class="largeText" id="title">Tic-Tac-Toe</h1>
+			<p id="subtitle">Have a minute to play the game you once loved?</p>
+		</div>
+		<section class="gameMenu placeCenter placeCenterRow">
 			<a href="#" id="goTwoPlayersMenu" class="btn bold btnPrimary glowHover square squareBig placeCenter">2 Players</a>
 			<a href="#" id="computerMode" class="btn bold btnPrimary glowHover square squareBig placeCenter">Computer</a>
 		</section>
-		<section class="twoPlayersConfig fullScreen placeCenter displayNone">
+		<section class="twoPlayersConfig fullScreen placeCenter placeCenterColumn displayNone">
 			<a href="#" class="arrowNav goToMenu bold">&larr; Go Back</a>
 			<h2 class="largeText">2 Players Mode</h2>
 			<p>What are your names?</p>
@@ -32,7 +34,7 @@
 			<a id="twoPlayersMode" href="#" class="btn btnPrimary bold">Start Game</a>
 		</section>
 		<section class="inGame displayNone">
-			<div class="placeCenter">
+			<div class="mainGameUI placeCenter">
 				<b><div class="round roundSmall placeCenter" id="player1Name"></div></b>
 				<div class="gameBoard">
 					<div class="squareBox placeCenter" data-board-index="0"></div>

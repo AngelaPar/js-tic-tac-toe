@@ -28,14 +28,11 @@ body {
 	text-align: center;
 	background-color: var(--aquagreen);
 	color: #FFF;
-	flex-flow: column wrap;
 }
 main {
 	max-width: 1010px;
 	margin: 0 auto;
-	flex-flow: column wrap;
 	min-height: 100vh;
-	font-size: 1.5vmax;
 }
 /*===============
 	TYPOGRAPHY
@@ -44,7 +41,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Staatliches', cursive;
 }
 .largeText {
-	font-size: 4vw;
+	font-size: 4rem;
 	letter-spacing: .5rem;	
 }
 .bold {
@@ -127,7 +124,6 @@ h1, h2, h3, h4, h5, h6 {
 	GAME MENU
 >>>>>>>>>>>>>>>> */
 .gameMenu {
-	flex-flow: row wrap;
 	margin: 1rem auto;
 	transition: all .3s ease-in-out;
 }
@@ -143,16 +139,14 @@ h1, h2, h3, h4, h5, h6 {
 >>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 .twoPlayersConfig {
-	background-color: #8de4af;
-	flex-flow: column wrap;
+	background-color: var(--aquagreen);
+	padding: 3.5rem;
 }
 .fullScreen {
-	width: 100%;
-	height: 100vh;
 	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 25;
+	top: 0; left: 0; 
+	width: 100%;
+	min-height: 100vh;
 }
 .square {
 	margin: 1rem;
@@ -207,17 +201,36 @@ h1, h2, h3, h4, h5, h6 {
 	justify-content: center;
 	align-items: center;
 }
+	.placeCenterRow {
+		flex-flow: row wrap;
+	}
+	.placeCenterColumn {
+		flex-flow: column wrap;
+	}
+
+
 .displayNone {
 	display: none;
 }
 .glowHover:hover {
-	box-shadow: 0 0 .5rem .5rem var(--yellow);
+	/*box-shadow: 0 0 .5rem .5rem var(--yellow);*/
 }
 
 /*===============
   MEDIA QUERIES
 =================*/
 
-@media (min-width: 2000px) {
-	
+@media (max-width: 550px) {
+	.largeText {
+		font-size: 3rem;
+	}
+	.twoPlayersConfig {
+		padding: 2.5rem;
+	}
+	.enterNameForm {
+		flex-flow: column wrap;
+	}
+	.mainGameUI.placeCenter {
+		flex-flow: column wrap;
+	}
 }
